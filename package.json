@@ -34,6 +34,7 @@
     "resumer": "0.0.0"
   },
   "dependencies": {
-    "encoding": "^0.1.11"
+    "encoding": "^0.1.11",
+    "request": "^2.57.0"
   }
 }
