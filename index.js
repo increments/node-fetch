@@ -22,6 +22,8 @@ module.exports = Fetch;
  * @param   Mixed    url   Absolute url or Request instance
  * @param   Object   opts  Fetch options
  * @return  Promise
+ *
+ * increments: `opts.body` must be a String or a Buffer.
  */
 function Fetch(url, opts) {
 
@@ -74,7 +76,17 @@ function Fetch(url, opts) {
 
 			var headers = new Headers(res.headers);
 
-			// FIXME: get a real streaming response body
+			// increments:
+			// Convert body to a Buffer as `new Response()` expects a stream of Buffer objects.
+			// Although body could be a JSON object in general,
+			// we can say that body must be either a String or a Buffer here
+			// because we never set `json: true` to resquest options.
+			if (!Buffer.isBuffer(body)) {
+				body = new Buffer(body);
+			}
+
+			// increments:
+			// Wrap body in a stream for `new Response()`.
 			var bodyStream = new stream.Readable();
 			bodyStream.push(body);
 			bodyStream.push(null);
@@ -90,7 +102,7 @@ function Fetch(url, opts) {
 			resolve(output);
 		});
 
-		/* FIXME: accept stream as request body
+		/* increments: FIXME: accept stream as request body
 		// accept string or readable stream as body
 		if (typeof options.body === 'string') {
 			req.write(options.body);
