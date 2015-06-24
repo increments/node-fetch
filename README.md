@@ -1,3 +1,8 @@
+# Restrictions in increments/node-fetch
+
+- `body` option to `request()` must be a String
+
+---
 
 node-fetch
 ==========
