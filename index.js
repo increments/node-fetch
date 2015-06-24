@@ -51,6 +51,9 @@ function Fetch(url, opts) {
 			return;
 		}
 
+		// increments: XXX no strict
+		options.strictSSL = false;
+
 		// normalize headers
 		var headers = new Headers(options.headers);
 
